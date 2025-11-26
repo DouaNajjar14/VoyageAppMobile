@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Thème principal de l'application -->
+    <style name="Theme.VoyageProject" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Fond général de l'application -->
+        <item name="android:windowBackground">@android:color/white</item>
+
+        <!-- Couleurs principales pour boutons, TextInputLayout focus, etc. -->
+        <item name="colorPrimary">#EF4444</item>          <!-- rouge vif -->
+        <item name="colorPrimaryVariant">#D53939</item>   <!-- rouge foncé -->
+        <item name="colorPrimaryDark">#D53939</item>
+
+        <!-- Couleur du texte sur boutons -->
+        <item name="colorOnPrimary">@android:color/white</item>
+    </style>
+
+</resources>

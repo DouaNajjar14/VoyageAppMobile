@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/bg_light"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Conteneur pour les fragments -->
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp" />
+
+    <!-- Bottom Navigation avec style moderne -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_light"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        app:itemIconTint="@color/red_primary"
+        app:itemTextColor="@color/red_primary"
+        app:menu="@menu/bottom_menu"
+        app:labelVisibilityMode="labeled" />
+
+
+</LinearLayout>

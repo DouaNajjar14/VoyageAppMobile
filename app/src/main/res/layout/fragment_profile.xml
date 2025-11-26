@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="20dp"
+    android:background="@color/bg_light">
+
+    <LinearLayout
+        android:orientation="vertical"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Mon Profil"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#EF4444"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Champ Prénom -->
+        <EditText
+            android:id="@+id/etFirstName"
+            android:hint="Prénom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/input_field"
+            android:paddingStart="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Champ Nom -->
+        <EditText
+            android:id="@+id/etLastName"
+            android:hint="Nom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/input_field"
+            android:paddingStart="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Email -->
+        <EditText
+            android:id="@+id/etEmail"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/input_field"
+            android:paddingStart="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Téléphone -->
+        <EditText
+            android:id="@+id/etPhone"
+            android:hint="Téléphone"
+            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/input_field"
+            android:paddingStart="12dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Bouton Mettre à jour -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnUpdate"
+            android:text="Mettre à jour"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#EF4444"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="16dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Bouton Déconnexion -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogout"
+            android:text="Déconnexion"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#444444"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:cornerRadius="16dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- ProgressBar pour chargement / mise à jour -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+</ScrollView>
