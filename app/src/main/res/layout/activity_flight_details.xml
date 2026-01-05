@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/background_color">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Informations du vol -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="✈️ DÉTAILS DU VOL"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_color"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:id="@+id/tvAirline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Air France - AF1234"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/tvFlightNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Vol AF1234"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:id="@+id/tvDepartureInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🛫 DÉPART\n08:00 - Tunis (TUN)"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="12dp"/>
+
+                <TextView
+                    android:id="@+id/tvArrivalInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🛬 ARRIVÉE\n12:30 - Paris (CDG)"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="12dp"/>
+
+                <TextView
+                    android:id="@+id/tvDuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="⏱️ Durée: 4h 30min"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:id="@+id/tvPassengers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="👥 1 adulte"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Type de billet et dates -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🎫 TYPE DE BILLET"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_color"
+                    android:layout_marginBottom="16dp"/>
+
+                <RadioGroup
+                    android:id="@+id/rgTripType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
+
+                    <RadioButton
+                        android:id="@+id/rbOneWay"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Aller simple"
+                        android:textSize="14sp"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:id="@+id/rbRoundTrip"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Aller-retour"
+                        android:textSize="14sp"/>
+                </RadioGroup>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="📅 DATES"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_color"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- Date de départ -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date de départ"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_marginBottom="4dp"/>
+
+                    <EditText
+                        android:id="@+id/etDepartureDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Sélectionner la date"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_calendar"
+                        android:drawablePadding="8dp"
+                        android:padding="12dp"
+                        android:background="@drawable/rounded_background"/>
+                </LinearLayout>
+
+                <!-- Date de retour -->
+                <LinearLayout
+                    android:id="@+id/layoutReturnDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date de retour"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_marginBottom="4dp"/>
+
+                    <EditText
+                        android:id="@+id/etReturnDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Sélectionner la date"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_calendar"
+                        android:drawablePadding="8dp"
+                        android:padding="12dp"
+                        android:background="@drawable/rounded_background"/>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Gestion des passagers -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="👥 PASSAGERS"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_color"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- Adultes -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Adultes"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="18 ans et plus"
+                            android:textSize="12sp"
+                            android:textColor="@android:color/darker_gray"/>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnAdultsMinus"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="-"
+                        android:textSize="20sp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+                    <TextView
+                        android:id="@+id/tvAdultsCount"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_marginHorizontal="8dp"/>
+
+                    <Button
+                        android:id="@+id/btnAdultsPlus"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="+"
+                        android:textSize="20sp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                </LinearLayout>
+
+                <!-- Enfants -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Enfants"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0-18 ans (âge requis)"
+                            android:textSize="12sp"
+                            android:textColor="@android:color/darker_gray"/>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnChildrenMinus"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="-"
+                        android:textSize="20sp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+                    <TextView
+                        android:id="@+id/tvChildrenCount"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_marginHorizontal="8dp"/>
+
+                    <Button
+                        android:id="@+id/btnChildrenPlus"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="+"
+                        android:textSize="20sp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                </LinearLayout>
+
+                <!-- Info tarification -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="💡 0-4 ans: Gratuit | 5-18 ans: 50% du tarif"
+                    android:textSize="12sp"
+                    android:textColor="@color/primary_color"
+                    android:padding="8dp"
+                    android:background="@drawable/rounded_background"
+                    android:layout_marginTop="12dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Sélection de classe -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="✈️ CHOISISSEZ VOTRE CLASSE"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_color"
+                    android:layout_marginBottom="16dp"/>
+
+                <RadioGroup
+                    android:id="@+id/rgFlightClass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Économique -->
+                    <RadioButton
+                        android:id="@+id/rbEconomy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Économique"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:padding="8dp"/>
+
+                    <TextView
+                        android:id="@+id/tvEconomyFeatures"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Features"
+                        android:textSize="12sp"
+                        android:paddingStart="40dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="12dp"
+                        android:textColor="@android:color/darker_gray"/>
+
+                    <!-- Économie Premium -->
+                    <RadioButton
+                        android:id="@+id/rbPremiumEconomy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Économie Premium"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:padding="8dp"/>
+
+                    <TextView
+                        android:id="@+id/tvPremiumFeatures"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Features"
+                        android:textSize="12sp"
+                        android:paddingStart="40dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="12dp"
+                        android:textColor="@android:color/darker_gray"/>
+
+                    <!-- Affaires -->
+                    <RadioButton
+                        android:id="@+id/rbBusiness"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Affaires"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:padding="8dp"/>
+
+                    <TextView
+                        android:id="@+id/tvBusinessFeatures"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Features"
+                        android:textSize="12sp"
+                        android:paddingStart="40dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="12dp"
+                        android:textColor="@android:color/darker_gray"/>
+
+                    <!-- Première -->
+                    <RadioButton
+                        android:id="@+id/rbFirst"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Première Classe"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:padding="8dp"/>
+
+                    <TextView
+                        android:id="@+id/tvFirstFeatures"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Features"
+                        android:textSize="12sp"
+                        android:paddingStart="40dp"
+                        android:paddingEnd="8dp"
+                        android:textColor="@android:color/darker_gray"/>
+
+                </RadioGroup>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Prix estimé -->
+        <TextView
+            android:id="@+id/tvEstimatedPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Prix total: 1,785 TND"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_color"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="@drawable/rounded_background"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Bouton continuer -->
+        <Button
+            android:id="@+id/btnContinue"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Continuer vers le récapitulatif"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/primary_color"/>
+
+    </LinearLayout>
+</ScrollView>

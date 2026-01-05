@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@drawable/input_field"
+    android:layout_marginBottom="8dp">
+
+    <CheckBox
+        android:id="@+id/cbActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Activité"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#212121" />
+
+    <TextView
+        android:id="@+id/tvActivityDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description de l'activité"
+        android:textSize="12sp"
+        android:textColor="#757575"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp" />
+
+    <!-- Sélecteur de nombre de personnes -->
+    <LinearLayout
+        android:id="@+id/layoutPersonCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone">
+
+        <!-- Adultes -->
+        <LinearLayout
+            android:id="@+id/layoutAdults"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="👨 Adultes:"
+                android:textSize="12sp"
+                android:textColor="#212121" />
+
+            <ImageButton
+                android:id="@+id/btnAdultMinus"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_remove"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Moins" />
+
+            <TextView
+                android:id="@+id/tvAdultCount"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="#673AB7" />
+
+            <ImageButton
+                android:id="@+id/btnAdultPlus"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_add"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Plus" />
+        </LinearLayout>
+
+        <!-- Enfants -->
+        <LinearLayout
+            android:id="@+id/layoutChildren"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="👶 Enfants:"
+                android:textSize="12sp"
+                android:textColor="#212121" />
+
+            <ImageButton
+                android:id="@+id/btnChildMinus"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_remove"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Moins" />
+
+            <TextView
+                android:id="@+id/tvChildCount"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="#673AB7" />
+
+            <ImageButton
+                android:id="@+id/btnChildPlus"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_add"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Plus" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Prix total pour cette activité -->
+    <TextView
+        android:id="@+id/tvActivityTotalPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Prix total: 0 TND"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="#4CAF50"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:visibility="gone" />
+</LinearLayout>

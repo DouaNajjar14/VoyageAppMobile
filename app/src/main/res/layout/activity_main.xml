@@ -29,7 +29,7 @@
         android:paddingBottom="4dp"
         app:itemIconTint="@color/red_primary"
         app:itemTextColor="@color/red_primary"
-        app:menu="@menu/bottom_menu"
+        app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="labeled" />
 
 

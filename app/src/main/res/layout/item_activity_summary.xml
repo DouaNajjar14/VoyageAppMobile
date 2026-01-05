@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@drawable/input_field"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/tvActivityTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cours de poterie traditionnelle"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#212121" />
+
+    <TextView
+        android:id="@+id/tvActivityParticipants"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="👥 3 adultes, 2 enfants"
+        android:textSize="12sp"
+        android:textColor="#757575"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:id="@+id/tvActivityPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="💰 157.50 TND"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="#4CAF50"
+        android:layout_marginTop="4dp" />
+</LinearLayout>

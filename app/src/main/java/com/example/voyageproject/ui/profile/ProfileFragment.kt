@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.voyageproject.databinding.FragmentProfileBinding
 import com.example.voyageproject.model.UpdateProfileRequest
 import com.example.voyageproject.repository.AuthRepository
+import com.example.voyageproject.ui.debug.DebugApiActivity
 import com.example.voyageproject.ui.login.LoginActivity
 import com.example.voyageproject.utils.SessionManager
 import kotlinx.coroutines.launch
@@ -32,6 +33,12 @@ class ProfileFragment : Fragment() {
 
         binding.btnUpdate.setOnClickListener { updateProfile() }
         binding.btnLogout.setOnClickListener { logout() }
+        
+        // Bouton de debug (à supprimer en production)
+        binding.btnUpdate.setOnLongClickListener {
+            startActivity(Intent(requireContext(), DebugApiActivity::class.java))
+            true
+        }
 
         return binding.root
     }
@@ -88,9 +95,6 @@ class ProfileFragment : Fragment() {
             }
         }
     }
-
-
-
 
     private fun logout() {
         session.clear()

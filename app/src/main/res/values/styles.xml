@@ -6,12 +6,17 @@
         <item name="android:windowBackground">@android:color/white</item>
 
         <!-- Couleurs principales pour boutons, TextInputLayout focus, etc. -->
-        <item name="colorPrimary">#EF4444</item>          <!-- rouge vif -->
-        <item name="colorPrimaryVariant">#D53939</item>   <!-- rouge foncé -->
+        <item name="colorPrimary">#FF6B6B</item>
+        <item name="colorPrimaryVariant">#E74C3C</item>
         <item name="colorPrimaryDark">#D53939</item>
 
         <!-- Couleur du texte sur boutons -->
         <item name="colorOnPrimary">@android:color/white</item>
+    </style>
+
+    <style name="Theme.VoyageProject.NoActionBar" parent="Theme.VoyageProject">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 </resources>

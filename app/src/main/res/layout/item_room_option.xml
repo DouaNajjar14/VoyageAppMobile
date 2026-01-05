@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:strokeColor="@color/gray_light"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Room Type -->
+        <TextView
+            android:id="@+id/tvRoomType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="🛏️ Chambre Standard" />
+
+        <!-- Room Info -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvRoomCapacity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                tools:text="👥 2 adultes" />
+
+            <TextView
+                android:id="@+id/tvBedType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                tools:text="🛏️ 1 lit double" />
+
+        </LinearLayout>
+
+        <!-- View Options -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Vue:"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/rgViewOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rbViewGarden"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🌳 Vue jardin (+0€)"
+                android:textSize="14sp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rbViewSea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🌊 Vue mer (+20€/nuit)"
+                android:textSize="14sp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rbViewPool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🏊 Vue piscine (+10€/nuit)"
+                android:textSize="14sp" />
+
+        </RadioGroup>
+
+        <!-- Meal Options -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Formule:"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/rgMealOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rbMealNone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sans repas (+0€)"
+                android:textSize="14sp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rbMealBreakfast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🍳 Petit déjeuner (+15€/nuit)"
+                android:textSize="14sp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rbMealHalfBoard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🍽️ Demi-pension (+35€/nuit)"
+                android:textSize="14sp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rbMealAllInclusive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🍹 All inclusive (+50€/nuit)"
+                android:textSize="14sp" />
+
+        </RadioGroup>
+
+        <!-- Price and Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvTotalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:text="320€" />
+
+                <TextView
+                    android:id="@+id/tvPricePerNight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp"
+                    tools:text="80€/nuit" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSelectRoom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sélectionner"
+                android:textAllCaps="false"
+                app:cornerRadius="8dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

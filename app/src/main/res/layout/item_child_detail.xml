@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/tvChildLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Enfant 1 (8 ans)"
+        android:textColor="#757575" />
+
+    <TextView
+        android:id="@+id/tvChildValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gratuit"
+        android:textStyle="bold"
+        android:textColor="#4CAF50" />
+</LinearLayout>

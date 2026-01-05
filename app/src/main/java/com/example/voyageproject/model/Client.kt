@@ -7,5 +7,13 @@ data class Client(
     val email: String,
     val password: String,
     val telephone: String,
-    val enabled: Boolean = false
+    val enabled: Boolean = false,
+    val preferences: TravelPreferences? = null
+)
+
+data class TravelPreferences(
+    val budget: Double? = null,
+    val preferredLanguages: List<String>? = null,
+    val preferredDestinations: List<String>? = null,
+    val travelStyle: String? = null // "luxury", "budget", "adventure", "relaxation"
 )

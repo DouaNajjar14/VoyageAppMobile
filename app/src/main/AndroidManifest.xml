@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aandroid="http://schemas.android.com/apk/distribution"
-    package="com.example.voyageproject">
+    xmlns:aandroid="http://schemas.android.com/apk/distribution">
     <!-- Permissions courantes pour une application voyage -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
+        android:name=".VoyageApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,9 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VoyageProject"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".ui.profile.ProfileActivity"
-            android:exported="false" />
         <!-- MainActivity: point d'entrée de l'application -->
         <activity
             android:name=".ui.login.LoginActivity"
@@ -53,6 +51,87 @@
                     android:scheme="voyageproject" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.payment.PaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.payment.PaymentConfirmationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.debug.DebugApiActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.details.OfferDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.booking.BookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.hotel.HotelDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.VoyageProject.NoActionBar"/>
+        <activity
+            android:name=".ui.hotel.RoomDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.VoyageProject.NoActionBar"/>
+        <activity
+            android:name=".ui.hotel.HotelBookingActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ui.circuit.CircuitSearchActivity"
+            android:exported="false"
+            android:theme="@style/Theme.VoyageProject.NoActionBar"/>
+        <activity
+            android:name=".ui.circuit.CircuitResultsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.VoyageProject.NoActionBar"/>
+        <activity
+            android:name=".ui.circuit.CircuitDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.VoyageProject.NoActionBar"/>
+        <activity
+            android:name=".ui.circuit.CircuitBookingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.VoyageProject.NoActionBar"/>
+        <activity
+            android:name=".ui.circuit.CircuitBookingSummaryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.VoyageProject.NoActionBar"/>
+        <activity
+            android:name=".ui.flight.FlightSearchActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.flight.FlightDetailsActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.flight.FlightResultsActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.flight.FlightBookingSummaryActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.hotel.HotelDetailsBookingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.VoyageProject.NoActionBar"/>
+        <activity
+            android:name=".ui.hotel.RoomSelectionActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.hotel.BookingSummaryActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.hotel.BookingSummaryDetailedActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".PaymentReceiptActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ReservationHistoryActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ReservationDetailActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>
