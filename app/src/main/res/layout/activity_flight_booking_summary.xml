@@ -181,7 +181,8 @@
                         android:text="1,785 TND"
                         android:textSize="24sp"
                         android:textStyle="bold"
-                        android:textColor="@color/primary_color"/>
+                        android:textColor="#212121"
+                        android:fontFamily="sans-serif-medium"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

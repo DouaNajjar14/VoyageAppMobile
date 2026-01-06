@@ -350,9 +350,10 @@
                             android:id="@+id/tvTotalPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/primary"
+                            android:textColor="#212121"
                             android:textSize="24sp"
                             android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium"
                             tools:text="540€" />
 
                     </LinearLayout>

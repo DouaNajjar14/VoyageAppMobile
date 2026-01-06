@@ -1,5 +1,6 @@
 package com.example.voyageproject.repository
 
+import com.example.voyageproject.model.CancellationResponse
 import com.example.voyageproject.model.Reservation
 import com.example.voyageproject.network.RetrofitClient
 import retrofit2.Call
@@ -14,5 +15,9 @@ class ReservationRepository {
 
     fun getHistory(email: String): Call<List<Reservation>> {
         return api.getReservations(email)
+    }
+    
+    suspend fun cancelReservation(reservationId: String): Response<CancellationResponse> {
+        return api.cancelReservation(reservationId)
     }
 }

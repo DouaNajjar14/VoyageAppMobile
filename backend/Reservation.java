@@ -54,6 +54,13 @@ public class Reservation {
 
     @Column(name = "end_date")
     private LocalDate endDate;
+    
+    // Heures de départ et d'arrivée pour les vols
+    @Column(name = "departure_time")
+    private LocalDateTime departureTime;
+    
+    @Column(name = "arrival_time")
+    private LocalDateTime arrivalTime;
 
     @Column(name = "adults_count")
     private Integer adultsCount;

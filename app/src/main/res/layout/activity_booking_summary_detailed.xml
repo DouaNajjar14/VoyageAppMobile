@@ -434,7 +434,7 @@
                         android:text="PRIX TOTAL"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:textColor="#1976D2" />
+                        android:textColor="#212121" />
 
                     <TextView
                         android:id="@+id/tvTotalPrice"
@@ -443,7 +443,8 @@
                         android:text="1350 TND"
                         android:textSize="24sp"
                         android:textStyle="bold"
-                        android:textColor="#1976D2" />
+                        android:textColor="#212121"
+                        android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

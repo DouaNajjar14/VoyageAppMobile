@@ -538,7 +538,8 @@
                     android:text="0 €"
                     android:textSize="28sp"
                     android:textStyle="bold"
-                    android:textColor="#FF6B6B"/>
+                    android:textColor="#212121"
+                    android:fontFamily="sans-serif-medium"/>
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton

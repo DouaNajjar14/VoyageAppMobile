@@ -483,7 +483,8 @@
                         android:text="0.00 TND"
                         android:textSize="24sp"
                         android:textStyle="bold"
-                        android:textColor="#4CAF50" />
+                        android:textColor="#212121"
+                        android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

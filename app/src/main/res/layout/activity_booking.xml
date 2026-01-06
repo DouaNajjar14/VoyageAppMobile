@@ -215,7 +215,8 @@
                         android:text="0 €"
                         android:textSize="24sp"
                         android:textStyle="bold"
-                        android:textColor="#FF6B6B"/>
+                        android:textColor="#212121"
+                        android:fontFamily="sans-serif-medium"/>
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

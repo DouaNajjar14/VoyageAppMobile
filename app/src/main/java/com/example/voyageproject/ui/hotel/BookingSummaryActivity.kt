@@ -72,6 +72,35 @@ class BookingSummaryActivity : AppCompatActivity() {
                 Log.d("BOOKING_SUMMARY", "  Total Price: ${details.totalPrice}")
                 Log.d("BOOKING_SUMMARY", "========================================")
                 
+                // Calculer le détail des prix
+                val pricePerNight = if (details.numberOfNights > 0) {
+                    details.totalPrice / details.numberOfNights
+                } else {
+                    details.totalPrice
+                }
+                
+                // Calculer le supplément repas correctement
+                // Enfants 0-12 ans : gratuits pour les repas
+                val mealPricePerAdult = when (details.mealPlan.lowercase()) {
+                    "petit_dejeuner" -> 15.0
+                    "demi_pension" -> 35.0
+                    "pension_complete" -> 55.0
+                    "all_inclusive" -> 80.0
+                    else -> 0.0
+                }
+                
+                // Seuls les adultes paient les repas (enfants < 12 ans gratuits)
+                val mealSupplement = mealPricePerAdult * details.numberOfAdults
+                
+                // Estimer le supplément vue
+                val viewSupplement = when (details.viewType.lowercase()) {
+                    "mer" -> 20.0
+                    "montagne" -> 15.0
+                    else -> 0.0
+                }
+                
+                val basePrice = pricePerNight - viewSupplement - mealSupplement
+                
                 // Pour les hôtels, nous devons d'abord créer une réservation
                 // puis passer au paiement avec l'ID de réservation
                 val intent = Intent(this, PaymentActivity::class.java).apply {
@@ -91,6 +120,12 @@ class BookingSummaryActivity : AppCompatActivity() {
                     putExtra("numberOfChildren", details.numberOfChildren)
                     putExtra("viewType", details.viewType)
                     putExtra("mealPlan", details.mealPlan)
+                    
+                    // Ajouter le détail des prix
+                    putExtra("basePrice", basePrice)
+                    putExtra("viewSupplement", viewSupplement)
+                    putExtra("mealSupplement", mealSupplement)
+                    putExtra("pricePerNight", pricePerNight)
                     
                     putExtra("offerDetails", buildDetailsString(details))
                 }

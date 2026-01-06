@@ -41,6 +41,8 @@ class ReservationDetailActivity : AppCompatActivity() {
         findViewById<View>(R.id.btnBack)?.setOnClickListener {
             finish()
         }
+        
+        setupCancelButton()
     }
     
     private fun displayAllDetails() {
@@ -561,6 +563,7 @@ class ReservationDetailActivity : AppCompatActivity() {
         
         findViewById<TextView>(R.id.tvPriceBasePerNight)?.text = basePriceText
         
+        // Supplément hôtel (utilise layoutViewSupplement)
         if (hotelSupplement > 0) {
             val layoutViewSupplement = findViewById<LinearLayout>(R.id.layoutViewSupplement)
             layoutViewSupplement?.visibility = View.VISIBLE
@@ -578,9 +581,12 @@ class ReservationDetailActivity : AppCompatActivity() {
             
             val hotelSupText = "($adults adulte${if (adults > 1) "s" else ""} × ${String.format("%.0f", hotelSupplement / adults)} TND)"
             findViewById<TextView>(R.id.tvPriceViewSupplement)?.text = String.format("+ %.2f TND\n%s", hotelSupplement, hotelSupText)
+        } else {
+            findViewById<LinearLayout>(R.id.layoutViewSupplement)?.visibility = View.GONE
         }
         
-        if (activitiesSupplement > 0) {
+        // Supplément vol (utilise layoutMealSupplement)
+        if (flightSupplement > 0) {
             val layoutMealSupplement = findViewById<LinearLayout>(R.id.layoutMealSupplement)
             layoutMealSupplement?.visibility = View.VISIBLE
             
@@ -589,15 +595,61 @@ class ReservationDetailActivity : AppCompatActivity() {
                 if (child is LinearLayout && child.id == R.id.layoutMealSupplement) {
                     val label = child.getChildAt(0)
                     if (label is TextView) {
-                        label.text = "Activités optionnelles"
+                        label.text = "Supplément vol"
                     }
                     break
                 }
             }
             
-            findViewById<TextView>(R.id.tvPriceMealSupplement)?.text = String.format("+ %.2f TND", activitiesSupplement)
+            val flightSupText = "($adults adulte${if (adults > 1) "s" else ""} × ${String.format("%.0f", flightSupplement / adults)} TND)"
+            findViewById<TextView>(R.id.tvPriceMealSupplement)?.text = String.format("+ %.2f TND\n%s", flightSupplement, flightSupText)
+        } else {
+            findViewById<LinearLayout>(R.id.layoutMealSupplement)?.visibility = View.GONE
         }
         
+        // Activités optionnelles (ajouter dynamiquement après layoutMealSupplement)
+        if (activitiesSupplement > 0) {
+            // Créer un nouveau layout pour les activités
+            val activitiesLayout = LinearLayout(this).apply {
+                id = View.generateViewId()
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(0, 0, 0, dpToPx(8))
+                }
+                orientation = LinearLayout.HORIZONTAL
+            }
+            
+            val activitiesLabel = TextView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                text = "Activités optionnelles"
+                textSize = 14f
+                setTextColor(android.graphics.Color.parseColor("#757575"))
+            }
+            
+            val activitiesValue = TextView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                text = String.format("+ %.2f TND", activitiesSupplement)
+                textSize = 14f
+                setTextColor(android.graphics.Color.parseColor("#212121"))
+            }
+            
+            activitiesLayout.addView(activitiesLabel)
+            activitiesLayout.addView(activitiesValue)
+            
+            // Insérer après layoutMealSupplement
+            val layoutMealSupplement = findViewById<LinearLayout>(R.id.layoutMealSupplement)
+            val insertIndex = priceBreakdownContent?.indexOfChild(layoutMealSupplement) ?: -1
+            if (insertIndex >= 0) {
+                priceBreakdownContent?.addView(activitiesLayout, insertIndex + 1)
+            }
+        }
+        
+        // Cacher la ligne "Prix par nuit"
         for (i in 0 until (priceBreakdownContent?.childCount ?: 0)) {
             val child = priceBreakdownContent?.getChildAt(i)
             if (child is LinearLayout) {
@@ -609,6 +661,7 @@ class ReservationDetailActivity : AppCompatActivity() {
             }
         }
         
+        // Modifier "Nombre de nuits" en "Durée"
         for (i in 0 until (priceBreakdownContent?.childCount ?: 0)) {
             val child = priceBreakdownContent?.getChildAt(i)
             if (child is LinearLayout) {
@@ -624,10 +677,14 @@ class ReservationDetailActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tvPriceTotal)?.text = String.format("%.2f TND", totalPrice)
     }
     
+    private fun dpToPx(dp: Int): Int {
+        return (dp * resources.displayMetrics.density).toInt()
+    }
+    
     private fun displayFlightDetails() {
-        val today = java.time.LocalDate.now()
-        val departureDate = today.plusDays(7)
-        val returnDate = departureDate.plusDays(8)
+        // Utiliser les vraies données de la réservation
+        val departureDate = reservation.startDate ?: java.time.LocalDate.now().plusDays(7)
+        val returnDate = reservation.endDate ?: departureDate.plusDays(8)
         
         // Modifier le label "Dates de séjour" en "Dates de vol"
         val datesLabel = findViewById<LinearLayout>(R.id.layoutDates)?.getChildAt(0) as? TextView
@@ -639,14 +696,16 @@ class ReservationDetailActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tvStartDate)?.text = departureDate.toString()
         findViewById<TextView>(R.id.tvEndDate)?.text = returnDate.toString()
         
-        val adults = 2
-        val children = 1
+        // Utiliser les vraies données de voyageurs
+        val adults = reservation.adultsCount ?: 2
+        val children = reservation.childrenCount ?: 0
         
         val layoutGuests = findViewById<LinearLayout>(R.id.layoutGuests)
         layoutGuests?.visibility = View.VISIBLE
         findViewById<TextView>(R.id.tvGuests)?.text = "$adults adulte(s), $children enfant(s)"
         
-        val flightClass = when {
+        // Utiliser la vraie classe de vol si disponible, sinon déduire du nom
+        val flightClass = reservation.flightClass ?: when {
             reservation.offerName.contains("Premium", ignoreCase = true) -> "Premium Economy"
             reservation.offerName.contains("Business", ignoreCase = true) -> "Business"
             reservation.offerName.contains("First", ignoreCase = true) -> "First"
@@ -665,10 +724,23 @@ class ReservationDetailActivity : AppCompatActivity() {
     }
     
     private fun displayHotelDetails() {
-        val today = java.time.LocalDate.now()
-        val startDate = today.plusDays(7)
-        val endDate = startDate.plusDays(2)
-        val nights = 2
+        Log.d("HOTEL_DETAIL", "=== AFFICHAGE DÉTAILS HÔTEL ===")
+        Log.d("HOTEL_DETAIL", "Reservation ID: ${reservation.id}")
+        Log.d("HOTEL_DETAIL", "Nom: ${reservation.offerName}")
+        Log.d("HOTEL_DETAIL", "Prix total: ${reservation.price}")
+        Log.d("HOTEL_DETAIL", "startDate brut: ${reservation.startDate}")
+        Log.d("HOTEL_DETAIL", "endDate brut: ${reservation.endDate}")
+        Log.d("HOTEL_DETAIL", "adultsCount brut: ${reservation.adultsCount}")
+        Log.d("HOTEL_DETAIL", "childrenCount brut: ${reservation.childrenCount}")
+        Log.d("HOTEL_DETAIL", "formula brut: ${reservation.formula}")
+        Log.d("HOTEL_DETAIL", "priceBreakdown brut: ${reservation.priceBreakdown}")
+        
+        // Utiliser les vraies données de la réservation
+        val startDate = reservation.startDate ?: java.time.LocalDate.now().plusDays(7)
+        val endDate = reservation.endDate ?: startDate.plusDays(2)
+        val nights = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate).toInt()
+        
+        Log.d("HOTEL_DETAIL", "Dates calculées: $startDate -> $endDate ($nights nuits)")
         
         val layoutDates = findViewById<LinearLayout>(R.id.layoutDates)
         layoutDates?.visibility = View.VISIBLE
@@ -676,14 +748,21 @@ class ReservationDetailActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tvStartDate)?.text = startDate.toString()
         findViewById<TextView>(R.id.tvEndDate)?.text = endDate.toString()
         
-        val adults = 2
-        val children = 0
+        // Utiliser les vraies données de voyageurs
+        val adults = reservation.adultsCount ?: 2
+        val children = reservation.childrenCount ?: 0
+        
+        Log.d("HOTEL_DETAIL", "Voyageurs: $adults adultes, $children enfants")
         
         val layoutGuests = findViewById<LinearLayout>(R.id.layoutGuests)
         layoutGuests?.visibility = View.VISIBLE
         findViewById<TextView>(R.id.tvGuests)?.text = "$adults adulte(s), $children enfant(s)"
         
-        val formula = reservation.formula ?: "demi_pension"
+        val formula = reservation.formula ?: "petit_dejeuner"
+        
+        Log.d("HOTEL_DETAIL", "Formule brute: ${reservation.formula}")
+        Log.d("HOTEL_DETAIL", "Formule utilisée: $formula")
+        
         val layoutFormula = findViewById<LinearLayout>(R.id.layoutFormula)
         layoutFormula?.visibility = View.VISIBLE
         
@@ -692,9 +771,14 @@ class ReservationDetailActivity : AppCompatActivity() {
             "demi_pension" -> "Demi-pension"
             "pension_complete" -> "Pension complète"
             "all_inclusive" -> "All inclusive"
-            else -> "Demi-pension"
+            else -> {
+                Log.w("HOTEL_DETAIL", "Formule inconnue: $formula, utilisation par défaut")
+                "Petit déjeuner"
+            }
         }
         findViewById<TextView>(R.id.tvFormula)?.text = formulaText
+        
+        Log.d("HOTEL_DETAIL", "Formule affichée: $formulaText")
         
         displayPriceBreakdown(nights, formula)
     }
@@ -704,35 +788,135 @@ class ReservationDetailActivity : AppCompatActivity() {
         layoutPriceBreakdown?.visibility = View.VISIBLE
         
         val totalPrice = reservation.price
+        val adults = reservation.adultsCount ?: 2
+        val children = reservation.childrenCount ?: 0
         
-        val mealSupplement = when (formula.lowercase()) {
-            "petit_dejeuner" -> 15.0
-            "demi_pension" -> 35.0
-            "pension_complete" -> 55.0
-            "all_inclusive" -> 80.0
-            else -> 35.0
+        // Essayer d'utiliser le priceBreakdown de la réservation si disponible
+        val priceBreakdown = try {
+            if (!reservation.priceBreakdown.isNullOrEmpty()) {
+                com.google.gson.Gson().fromJson(reservation.priceBreakdown,
+                    object : com.google.gson.reflect.TypeToken<Map<String, Double>>() {}.type
+                ) as Map<String, Double>
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("HOTEL_DETAIL", "Erreur parsing prix: ${e.message}")
+            null
         }
         
-        val viewSupplement = 0.0
-        val pricePerNight = totalPrice / nights
-        val basePrice = pricePerNight - viewSupplement - mealSupplement
+        Log.d("HOTEL_DETAIL", "=== DÉTAIL PRIX HÔTEL ===")
+        Log.d("HOTEL_DETAIL", "Prix total: $totalPrice, Nuits: $nights, Voyageurs: $adults+$children")
         
-        findViewById<TextView>(R.id.tvPriceBasePerNight)?.text = String.format("%.2f TND", basePrice)
+        // Calculer le prix par nuit
+        val pricePerNight = if (nights > 0) totalPrice / nights else totalPrice
         
+        // Extraire les composants du prix
+        val basePrice: Double
+        val viewSupplement: Double
+        val mealSupplement: Double
+        
+        if (priceBreakdown != null && priceBreakdown.isNotEmpty()) {
+            basePrice = priceBreakdown["basePrice"] ?: 0.0
+            viewSupplement = priceBreakdown["viewSupplement"] ?: 0.0
+            mealSupplement = priceBreakdown["mealSupplement"] ?: 0.0
+        } else {
+            mealSupplement = when (formula.lowercase()) {
+                "petit_dejeuner" -> 15.0
+                "demi_pension" -> 35.0
+                "pension_complete" -> 55.0
+                "all_inclusive" -> 80.0
+                else -> 0.0
+            }
+            viewSupplement = 0.0
+            basePrice = pricePerNight - mealSupplement - viewSupplement
+        }
+        
+        // 1. Prix de base avec description complète
+        val basePriceText = buildString {
+            append("${String.format("%.2f", basePrice)} TND\n")
+            append("Prix de la chambre par nuit\n")
+            append("pour $adults adulte${if (adults > 1) "s" else ""}")
+            if (children > 0) {
+                append(" + $children enfant${if (children > 1) "s" else ""}")
+            }
+        }
+        findViewById<TextView>(R.id.tvPriceBasePerNight)?.text = basePriceText
+        
+        // 2. Supplément vue avec description
         if (viewSupplement > 0) {
-            val layoutViewSupplement = findViewById<LinearLayout>(R.id.layoutViewSupplement)
-            layoutViewSupplement?.visibility = View.VISIBLE
-            findViewById<TextView>(R.id.tvPriceViewSupplement)?.text = String.format("+ %.2f TND", viewSupplement)
+            findViewById<LinearLayout>(R.id.layoutViewSupplement)?.visibility = View.VISIBLE
+            val viewText = buildString {
+                append("+ ${String.format("%.2f", viewSupplement)} TND\n")
+                append("Supplément vue par nuit")
+            }
+            findViewById<TextView>(R.id.tvPriceViewSupplement)?.text = viewText
+        } else {
+            findViewById<LinearLayout>(R.id.layoutViewSupplement)?.visibility = View.GONE
         }
         
+        // 3. Supplément repas avec description détaillée
         if (mealSupplement > 0) {
-            val layoutMealSupplement = findViewById<LinearLayout>(R.id.layoutMealSupplement)
-            layoutMealSupplement?.visibility = View.VISIBLE
-            findViewById<TextView>(R.id.tvPriceMealSupplement)?.text = String.format("+ %.2f TND", mealSupplement)
+            findViewById<LinearLayout>(R.id.layoutMealSupplement)?.visibility = View.VISIBLE
+            
+            val formulaName = when (formula.lowercase()) {
+                "petit_dejeuner" -> "Petit déjeuner"
+                "demi_pension" -> "Demi-pension"
+                "pension_complete" -> "Pension complète"
+                "all_inclusive" -> "All inclusive"
+                else -> "Repas"
+            }
+            
+            // Calculer le prix par personne en tenant compte des enfants
+            // Pour les hôtels : enfants 0-12 ans gratuits, 12-18 ans moitié prix
+            // Comme nous n'avons pas les âges exacts, on suppose que les enfants < 12 ans
+            val mealText = buildString {
+                append("+ ${String.format("%.2f", mealSupplement)} TND\n")
+                append("$formulaName par nuit\n")
+                
+                if (children > 0) {
+                    // Supposer que les enfants sont < 12 ans (gratuits pour les repas)
+                    val payingGuests = adults // Seuls les adultes paient
+                    if (payingGuests > 0) {
+                        val perAdult = mealSupplement / payingGuests
+                        append("(${String.format("%.2f", perAdult)} TND × $adults adulte${if (adults > 1) "s" else ""})\n")
+                        append("Enfants : gratuit")
+                    }
+                } else {
+                    // Pas d'enfants, calcul simple
+                    if (adults > 0) {
+                        val perPerson = mealSupplement / adults
+                        append("(${String.format("%.2f", perPerson)} TND × $adults pers.)")
+                    }
+                }
+            }
+            findViewById<TextView>(R.id.tvPriceMealSupplement)?.text = mealText
+        } else {
+            findViewById<LinearLayout>(R.id.layoutMealSupplement)?.visibility = View.GONE
         }
         
-        findViewById<TextView>(R.id.tvPricePerNight)?.text = String.format("%.2f TND", pricePerNight)
-        findViewById<TextView>(R.id.tvNumberOfNights)?.text = "× $nights nuit${if (nights > 1) "s" else ""}"
+        // 4. Prix par nuit (sous-total) avec décomposition
+        val pricePerNightText = buildString {
+            append("= ${String.format("%.2f", pricePerNight)} TND\n")
+            append("Sous-total par nuit\n")
+            append("(")
+            val parts = mutableListOf<String>()
+            if (basePrice > 0) parts.add("${String.format("%.0f", basePrice)}")
+            if (viewSupplement > 0) parts.add("${String.format("%.0f", viewSupplement)}")
+            if (mealSupplement > 0) parts.add("${String.format("%.0f", mealSupplement)}")
+            append(parts.joinToString(" + "))
+            append(")")
+        }
+        findViewById<TextView>(R.id.tvPricePerNight)?.text = pricePerNightText
+        
+        // 5. Nombre de nuits avec description
+        val nightsText = buildString {
+            append("× $nights nuit${if (nights > 1) "s" else ""}\n")
+            append("Durée du séjour")
+        }
+        findViewById<TextView>(R.id.tvNumberOfNights)?.text = nightsText
+        
+        // 6. Prix total - afficher uniquement le montant
         findViewById<TextView>(R.id.tvPriceTotal)?.text = String.format("%.2f TND", totalPrice)
     }
     
@@ -835,5 +1019,91 @@ class ReservationDetailActivity : AppCompatActivity() {
         
         findViewById<TextView>(R.id.tvNumberOfNights)?.text = "${adults + children} passager(s)"
         findViewById<TextView>(R.id.tvPriceTotal)?.text = String.format("%.2f TND", totalPrice)
+    }
+    
+    private fun setupCancelButton() {
+        val btnCancel = findViewById<android.widget.Button>(R.id.btnCancelReservation)
+        
+        // Afficher le bouton seulement si la réservation est confirmée
+        if (reservation.status.uppercase() == "CONFIRMED") {
+            btnCancel?.visibility = View.VISIBLE
+            btnCancel?.setOnClickListener {
+                showCancellationConfirmDialog()
+            }
+        } else {
+            btnCancel?.visibility = View.GONE
+        }
+    }
+    
+    private fun showCancellationConfirmDialog() {
+        android.app.AlertDialog.Builder(this)
+            .setTitle("Annuler la réservation")
+            .setMessage("Êtes-vous sûr de vouloir annuler cette réservation ?\n\nLes conditions d'annulation s'appliqueront selon le délai restant.")
+            .setPositiveButton("Oui, annuler") { _, _ ->
+                cancelReservation()
+            }
+            .setNegativeButton("Non", null)
+            .show()
+    }
+    
+    private fun cancelReservation() {
+        lifecycleScope.launch {
+            try {
+                val repository = com.example.voyageproject.repository.ReservationRepository()
+                val response = repository.cancelReservation(reservation.id)
+                
+                if (response.isSuccessful) {
+                    val result = response.body()
+                    if (result?.success == true) {
+                        // Annulation réussie
+                        showCancellationSuccessDialog(result)
+                    } else {
+                        // Annulation refusée
+                        showCancellationErrorDialog(result?.error ?: "Annulation impossible")
+                    }
+                } else {
+                    showCancellationErrorDialog("Erreur serveur: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e("CANCEL_RESERVATION", "Erreur: ${e.message}")
+                showCancellationErrorDialog("Erreur: ${e.message}")
+            }
+        }
+    }
+    
+    private fun showCancellationSuccessDialog(result: com.example.voyageproject.model.CancellationResponse) {
+        val message = buildString {
+            append("✅ Réservation annulée avec succès\n\n")
+            append("${result.offerName}\n\n")
+            
+            if (result.penaltyAmount != null && result.penaltyAmount > 0) {
+                append("⚠️ PÉNALITÉ D'ANNULATION\n\n")
+                append("Prix original: ${String.format("%.2f", result.originalPrice)} TND\n")
+                append("Pénalité (${String.format("%.0f", 100 - (result.refundPercentage ?: 0.0))}%): ${String.format("%.2f", result.penaltyAmount)} TND\n")
+                append("Montant remboursé: ${String.format("%.2f", result.refundAmount)} TND\n\n")
+            } else {
+                append("Remboursement intégral: ${String.format("%.2f", result.refundAmount)} TND\n\n")
+            }
+            
+            append(result.penaltyMessage ?: "")
+        }
+        
+        android.app.AlertDialog.Builder(this)
+            .setTitle("Annulation confirmée")
+            .setMessage(message)
+            .setPositiveButton("OK") { _, _ ->
+                // Retourner à l'historique
+                finish()
+            }
+            .setCancelable(false)
+            .show()
+    }
+    
+    private fun showCancellationErrorDialog(error: String) {
+        android.app.AlertDialog.Builder(this)
+            .setTitle("❌ Annulation impossible")
+            .setMessage(error)
+            .setPositiveButton("OK", null)
+            .show()
     }
 }

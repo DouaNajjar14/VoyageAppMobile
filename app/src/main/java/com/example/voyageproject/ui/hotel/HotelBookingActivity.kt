@@ -261,12 +261,43 @@ class HotelBookingActivity : AppCompatActivity() {
                      "$nights ${if (nights > 1) "nuits" else "nuit"} • " +
                      "${adultsCount + childrenCount} ${if (adultsCount + childrenCount > 1) "personnes" else "personne"}"
         
+        // Formater les dates au format yyyy-MM-dd pour le backend
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val checkInDateStr = sdf.format(checkInDate!!.time)
+        val checkOutDateStr = sdf.format(checkOutDate!!.time)
+        
+        // Calculer le supplément repas correctement
+        // Pour les hôtels : enfants 0-12 ans gratuits pour les repas
+        // Supposons que tous les enfants sont < 12 ans (gratuits)
+        val mealPricePerAdult = 15.0 // Petit déjeuner par adulte
+        val mealSupplement = mealPricePerAdult * adultsCount // Seuls les adultes paient
+        
         val intent = Intent(this, PaymentActivity::class.java).apply {
             putExtra("offerType", "hotel")
             putExtra("offerId", hotelId)
+            putExtra("hotelId", hotelId)
             putExtra("offerName", "$hotelName - $roomName")
             putExtra("offerPrice", totalPrice)
             putExtra("offerDetails", details)
+            
+            // Ajouter tous les détails nécessaires pour la réservation
+            putExtra("roomType", roomName)
+            putExtra("checkInDate", checkInDateStr)
+            putExtra("checkOutDate", checkOutDateStr)
+            putExtra("numberOfNights", nights)
+            putExtra("numberOfAdults", adultsCount)
+            putExtra("numberOfChildren", childrenCount)
+            putExtra("viewType", "") // Pas de vue spécifique dans ce formulaire
+            putExtra("mealPlan", "petit_dejeuner") // Par défaut petit déjeuner
+            
+            // Calculer et ajouter le détail des prix
+            val basePrice = pricePerNight - mealSupplement
+            val viewSupplement = 0.0 // Pas de supplément vue
+            
+            putExtra("basePrice", basePrice)
+            putExtra("viewSupplement", viewSupplement)
+            putExtra("mealSupplement", mealSupplement)
+            putExtra("pricePerNight", pricePerNight)
         }
         startActivity(intent)
     }

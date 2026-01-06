@@ -270,7 +270,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Montant Total"
-                        android:textColor="#2E7D32"
+                        android:textColor="#212121"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     
@@ -279,9 +279,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="800 TND"
-                        android:textColor="#2E7D32"
+                        android:textColor="#212121"
                         android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
 
                 <!-- Méthode de paiement -->

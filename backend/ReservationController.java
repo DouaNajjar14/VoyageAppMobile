@@ -44,6 +44,8 @@ public class ReservationController {
                 
                 if (r.getStartDate() != null) resMap.put("startDate", r.getStartDate().toString());
                 if (r.getEndDate() != null) resMap.put("endDate", r.getEndDate().toString());
+                if (r.getDepartureTime() != null) resMap.put("departureTime", r.getDepartureTime().toString());
+                if (r.getArrivalTime() != null) resMap.put("arrivalTime", r.getArrivalTime().toString());
                 if (r.getAdultsCount() != null) resMap.put("adultsCount", r.getAdultsCount());
                 if (r.getChildrenCount() != null) resMap.put("childrenCount", r.getChildrenCount());
                 if (r.getFormula() != null) resMap.put("formula", r.getFormula());
@@ -178,6 +180,32 @@ public class ReservationController {
             log.error("❌ Erreur: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError()
                     .body(Map.of("error", e.getMessage()));
+        }
+    }
+    
+    @DeleteMapping("/{reservationId}")
+    public ResponseEntity<?> cancelReservation(@PathVariable String reservationId) {
+        log.info("DELETE /api/reservation/{}", reservationId);
+        
+        try {
+            UUID id = UUID.fromString(reservationId);
+            Map<String, Object> result = reservationService.cancelReservation(id);
+            
+            if ((Boolean) result.get("success")) {
+                log.info("✅ Réservation {} annulée", reservationId);
+                return ResponseEntity.ok(result);
+            } else {
+                log.warn("⚠️ Annulation refusée: {}", result.get("error"));
+                return ResponseEntity.badRequest().body(result);
+            }
+        } catch (IllegalArgumentException e) {
+            log.error("❌ ID invalide: {}", reservationId);
+            return ResponseEntity.badRequest()
+                    .body(Map.of("success", false, "error", "ID de réservation invalide"));
+        } catch (Exception e) {
+            log.error("❌ Erreur lors de l'annulation: {}", e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("success", false, "error", e.getMessage()));
         }
     }
 }

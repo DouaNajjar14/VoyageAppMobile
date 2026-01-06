@@ -96,6 +96,10 @@ interface ApiService {
     // Détails complets d'une réservation
     @GET("api/reservation/{id}/details")
     suspend fun getReservationDetails(@Path("id") reservationId: String): Response<ReservationDetails>
+    
+    // Annulation de réservation
+    @DELETE("api/reservation/{id}")
+    suspend fun cancelReservation(@Path("id") reservationId: String): Response<CancellationResponse>
 
     // Notifications
     @GET("api/notifications")

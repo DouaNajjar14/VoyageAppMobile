@@ -3,6 +3,7 @@ package com.example.voyageproject.utils
 import com.example.voyageproject.model.Reservation
 import com.google.gson.*
 import java.lang.reflect.Type
+import java.time.LocalDate
 
 class ReservationDeserializer : JsonDeserializer<Reservation> {
     override fun deserialize(
@@ -34,6 +35,15 @@ class ReservationDeserializer : JsonDeserializer<Reservation> {
             else -> "N/A"
         }
         
+        // Convertir startDate et endDate depuis String vers LocalDate
+        val startDate = obj.get("startDate")?.asString?.let { 
+            try { LocalDate.parse(it) } catch (e: Exception) { null }
+        }
+        
+        val endDate = obj.get("endDate")?.asString?.let { 
+            try { LocalDate.parse(it) } catch (e: Exception) { null }
+        }
+        
         return Reservation(
             id = obj.get("id").asString,
             clientEmail = obj.get("clientEmail").asString,
@@ -44,7 +54,17 @@ class ReservationDeserializer : JsonDeserializer<Reservation> {
             bookingDate = bookingDate,
             status = obj.get("status").asString,
             paymentMethod = obj.get("paymentMethod")?.asString,
-            details = null
+            details = null,
+            formula = obj.get("formula")?.asString,
+            startDate = startDate,
+            endDate = endDate,
+            adultsCount = obj.get("adultsCount")?.asInt,
+            childrenCount = obj.get("childrenCount")?.asInt,
+            childrenAges = obj.get("childrenAges")?.asString,
+            hotelLevel = obj.get("hotelLevel")?.asString,
+            flightClass = obj.get("flightClass")?.asString,
+            selectedActivities = obj.get("selectedActivities")?.asString,
+            priceBreakdown = obj.get("priceBreakdown")?.asString
         )
     }
 }

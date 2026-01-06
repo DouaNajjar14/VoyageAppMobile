@@ -241,6 +241,7 @@
 
                 <!-- Hébergement -->
                 <TextView
+                    android:id="@+id/tvHotelLevelLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="🏨 Hébergement"
@@ -260,6 +261,7 @@
 
                 <!-- Vol -->
                 <TextView
+                    android:id="@+id/tvFlightClassLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="✈️ Vol"
@@ -319,7 +321,8 @@
                     android:text="6457.50 TND"
                     android:textSize="32sp"
                     android:textStyle="bold"
-                    android:textColor="#4CAF50"
+                    android:textColor="#212121"
+                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:layout_marginTop="16dp"
                     android:visibility="gone" />

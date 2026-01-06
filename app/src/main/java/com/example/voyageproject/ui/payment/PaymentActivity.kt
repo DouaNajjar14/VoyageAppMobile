@@ -82,6 +82,22 @@ class PaymentActivity : AppCompatActivity() {
             numberOfChildren = intent.getIntExtra("numberOfChildren", 0)
             viewType = intent.getStringExtra("viewType") ?: ""
             mealPlan = intent.getStringExtra("mealPlan") ?: ""
+            
+            Log.d("PAYMENT", "=== DONNÉES HÔTEL REÇUES ===")
+            Log.d("PAYMENT", "hotelId: $hotelId")
+            Log.d("PAYMENT", "roomType: $roomType")
+            Log.d("PAYMENT", "checkInDate: $checkInDate")
+            Log.d("PAYMENT", "checkOutDate: $checkOutDate")
+            Log.d("PAYMENT", "numberOfNights: $numberOfNights")
+            Log.d("PAYMENT", "numberOfAdults: $numberOfAdults")
+            Log.d("PAYMENT", "numberOfChildren: $numberOfChildren")
+            Log.d("PAYMENT", "viewType: $viewType")
+            Log.d("PAYMENT", "mealPlan: $mealPlan")
+            Log.d("PAYMENT", "basePrice: ${intent.getDoubleExtra("basePrice", 0.0)}")
+            Log.d("PAYMENT", "viewSupplement: ${intent.getDoubleExtra("viewSupplement", 0.0)}")
+            Log.d("PAYMENT", "mealSupplement: ${intent.getDoubleExtra("mealSupplement", 0.0)}")
+            Log.d("PAYMENT", "pricePerNight: ${intent.getDoubleExtra("pricePerNight", 0.0)}")
+            Log.d("PAYMENT", "============================")
         }
         
         // Récupérer les détails spécifiques pour les vols
@@ -441,25 +457,42 @@ class PaymentActivity : AppCompatActivity() {
                         body["roomType"] = roomType
                         body["checkInDate"] = checkInDate
                         body["checkOutDate"] = checkOutDate
-                        body["numberOfNights"] = numberOfNights.toString()
-                        body["numberOfAdults"] = numberOfAdults.toString()
-                        body["numberOfChildren"] = numberOfChildren.toString()
-                        body["viewType"] = viewType
-                        body["mealPlan"] = mealPlan
+                        body["adultsCount"] = numberOfAdults.toString()
+                        body["childrenCount"] = numberOfChildren.toString()
+                        body["formula"] = mealPlan
                         body["totalPrice"] = offerPrice.toString()
                         
-                        Log.d("PAYMENT", "Réservation hôtel complète:")
+                        // Créer le détail des prix en JSON pour l'hôtel
+                        val priceBreakdown = mutableMapOf<String, Double>()
+                        priceBreakdown["basePrice"] = intent.getDoubleExtra("basePrice", 0.0)
+                        priceBreakdown["viewSupplement"] = intent.getDoubleExtra("viewSupplement", 0.0)
+                        priceBreakdown["mealSupplement"] = intent.getDoubleExtra("mealSupplement", 0.0)
+                        priceBreakdown["pricePerNight"] = intent.getDoubleExtra("pricePerNight", 0.0)
+                        priceBreakdown["totalPrice"] = offerPrice
+                        
+                        val priceBreakdownJson = com.google.gson.Gson().toJson(priceBreakdown)
+                        body["priceBreakdown"] = priceBreakdownJson
+                        
+                        Log.d("PAYMENT", "=== RÉSERVATION HÔTEL COMPLÈTE ===")
                         Log.d("PAYMENT", "  - hotelId: $hotelId")
                         Log.d("PAYMENT", "  - roomType: $roomType")
                         Log.d("PAYMENT", "  - dates: $checkInDate - $checkOutDate")
-                        Log.d("PAYMENT", "  - invités: $numberOfAdults adultes, $numberOfChildren enfants")
-                        Log.d("PAYMENT", "  - options: vue=$viewType, repas=$mealPlan")
+                        Log.d("PAYMENT", "  - adultsCount: $numberOfAdults")
+                        Log.d("PAYMENT", "  - childrenCount: $numberOfChildren")
+                        Log.d("PAYMENT", "  - formula: $mealPlan")
+                        Log.d("PAYMENT", "  - basePrice: ${priceBreakdown["basePrice"]}")
+                        Log.d("PAYMENT", "  - viewSupplement: ${priceBreakdown["viewSupplement"]}")
+                        Log.d("PAYMENT", "  - mealSupplement: ${priceBreakdown["mealSupplement"]}")
+                        Log.d("PAYMENT", "  - pricePerNight: ${priceBreakdown["pricePerNight"]}")
+                        Log.d("PAYMENT", "  - détail prix JSON: $priceBreakdownJson")
                         Log.d("PAYMENT", "  - prix total: $offerPrice TND")
+                        Log.d("PAYMENT", "====================================")
                     }
                     "flight" -> {
                         body["flightId"] = offerId
-                        body["departureDate"] = departureDate
-                        body["returnDate"] = returnDate
+                        // Le backend attend checkInDate et checkOutDate pour toutes les réservations
+                        body["checkInDate"] = departureDate
+                        body["checkOutDate"] = if (returnDate.isNotEmpty()) returnDate else departureDate
                         body["adultsCount"] = adultsCount.toString()
                         body["childrenCount"] = childrenCount.toString()
                         body["flightClass"] = flightClass
@@ -654,27 +687,40 @@ class PaymentActivity : AppCompatActivity() {
             putExtra("paymentMethod", "CARD")
             
             // Passer tous les détails selon le type
-            if (offerType == "circuit") {
-                putExtra("adults", intent.getIntExtra("adults", 0))
-                putExtra("childrenAges", intent.getIntegerArrayListExtra("childrenAges"))
-                putExtra("hotelLevel", intent.getStringExtra("hotelLevel"))
-                putExtra("flightClass", intent.getStringExtra("flightClass"))
-                putExtra("departureDate", intent.getLongExtra("departureDate", 0L))
-                putExtra("circuitDuration", intent.getIntExtra("circuitDuration", 0))
-                putExtra("circuitDestination", intent.getStringExtra("circuitDestination"))
-                
-                // Détail des prix
-                putExtra("basePrice", intent.getDoubleExtra("basePrice", 0.0))
-                putExtra("hotelSupplement", intent.getDoubleExtra("hotelSupplement", 0.0))
-                putExtra("flightSupplement", intent.getDoubleExtra("flightSupplement", 0.0))
-                putExtra("activitiesTotal", intent.getDoubleExtra("activitiesTotal", 0.0))
-                putExtra("selectedActivities", intent.getStringExtra("selectedActivities"))
-            } else if (offerType == "hotel") {
-                putExtra("checkInDate", checkInDate)
-                putExtra("checkOutDate", checkOutDate)
-                putExtra("numberOfNights", numberOfNights)
-                putExtra("numberOfAdults", numberOfAdults)
-                putExtra("numberOfChildren", numberOfChildren)
+            when (offerType.lowercase()) {
+                "circuit" -> {
+                    putExtra("adults", intent.getIntExtra("adults", 0))
+                    putExtra("childrenAges", intent.getIntegerArrayListExtra("childrenAges"))
+                    putExtra("hotelLevel", intent.getStringExtra("hotelLevel"))
+                    putExtra("flightClass", intent.getStringExtra("flightClass"))
+                    putExtra("departureDate", intent.getLongExtra("departureDate", 0L))
+                    putExtra("circuitDuration", intent.getIntExtra("circuitDuration", 0))
+                    putExtra("circuitDestination", intent.getStringExtra("circuitDestination"))
+                    
+                    // Détail des prix
+                    putExtra("basePrice", intent.getDoubleExtra("basePrice", 0.0))
+                    putExtra("hotelSupplement", intent.getDoubleExtra("hotelSupplement", 0.0))
+                    putExtra("flightSupplement", intent.getDoubleExtra("flightSupplement", 0.0))
+                    putExtra("activitiesTotal", intent.getDoubleExtra("activitiesTotal", 0.0))
+                    putExtra("selectedActivities", intent.getStringExtra("selectedActivities"))
+                }
+                "hotel" -> {
+                    putExtra("checkInDate", checkInDate)
+                    putExtra("checkOutDate", checkOutDate)
+                    putExtra("numberOfNights", numberOfNights)
+                    putExtra("numberOfAdults", numberOfAdults)
+                    putExtra("numberOfChildren", numberOfChildren)
+                    putExtra("roomType", roomType)
+                    putExtra("viewType", viewType)
+                    putExtra("mealPlan", mealPlan)
+                }
+                "flight" -> {
+                    putExtra("departureDate", departureDate)
+                    putExtra("returnDate", returnDate)
+                    putExtra("adultsCount", adultsCount)
+                    putExtra("childrenCount", childrenCount)
+                    putExtra("flightClass", flightClass)
+                }
             }
         }
         startActivity(intent)
